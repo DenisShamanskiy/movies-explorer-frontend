@@ -1,0 +1,20 @@
+.header {
+  width: 100%;
+  height: 74px;
+  padding: 0 70px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header_place_about-project {
+  background-color: #073042;
+}
+
+.header__logo {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+}

@@ -1,5 +1,6 @@
 import "./Main.css";
 import Promo from "../Promo/Promo";
+import AboutProject from "../AboutProject/AboutProject";
 import Header from "../Header/Header";
 
 function Main() {
@@ -8,6 +9,7 @@ function Main() {
       <Header />
       <main className="app__content">
         <Promo />
+        <AboutProject />
       </main>
     </>
   );

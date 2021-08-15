@@ -1,0 +1,20 @@
+.button-delete {
+  margin: 18px auto;
+  padding: 0;
+  width: 100px;
+  min-height: 29px;
+  border-radius: 30px;
+  background: center center no-repeat
+      url("../../../images/button_film_delete.svg"),
+    #313131;
+  border: none;
+}
+
+.button-delete:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.button-delete:focus {
+  outline: none;
+}

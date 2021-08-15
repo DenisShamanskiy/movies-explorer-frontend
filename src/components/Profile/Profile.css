@@ -1,0 +1,128 @@
+.profile {
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 74px);
+  max-width: 410px;
+  min-width: 320px;
+  padding: 74px 0 70px 0;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  box-sizing: border-box;
+  background-color: #202020;
+}
+
+.profile__title {
+  margin: 0 0 123px 0;
+  font-family: "Inter", ‘Arial’, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #fff;
+}
+
+.profile__info {
+  margin: 0 0 220px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.profile__item {
+  height: 30px;
+  margin-bottom: 17px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-bottom: 1px solid #424242;
+}
+.profile__item:last-child {
+  margin-bottom: 0;
+}
+
+.profile__item-name {
+  font-weight: 400;
+}
+.profile__item-value {
+  font-weight: 500;
+}
+
+.profile__item-name,
+.profile__item-value {
+  margin-top: 0;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.profile__item-name:last-child + .profile__item-value:last-child {
+  margin: 17px 0 0 0;
+}
+
+.profile__button {
+  padding: 0;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  font-family: "Inter", ‘Arial’, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #fff;
+  background-color: #202020;
+  border: none;
+}
+
+.profile__button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.profile__button_logout {
+  margin: 0 auto;
+  padding: 0;
+  font-family: "Inter", ‘Arial’, sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #ee3465;
+  background-color: #202020;
+  border: none;
+}
+
+.profile__button_logout:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    padding: 236px 0 269px 0;
+  }
+  .profile__title {
+    margin: 0 0 96px 0;
+  }
+  .profile__form-submit {
+    margin: 210px 0 auto;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .profile {
+    padding: 70px 30px 41px;
+  }
+  .profile__title {
+    margin: 0 0 80px 0;
+  }
+  .profile__form {
+    min-width: 260px;
+  }
+  .profile__form-submit {
+    margin: 379px 0 auto;
+  }
+}

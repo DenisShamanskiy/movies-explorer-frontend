@@ -1,15 +1,14 @@
 import "./Header.css";
-import { Link } from "react-router-dom";
 import React from "react";
-import HeaderLogo from "../../images/header_logo.svg";
+import HeaderLogoLink from "../UI/HeaderLogoLink/HeaderLogoLink";
 import Navigation from "../Navigation/Navigation";
 
 function Header() {
+  const isLoggedIn = false;
+
   return (
-    <header className="header header_place_about-project">
-      <Link to="/">
-        <img className="header__logo" src={HeaderLogo} alt="Lоготип" />
-      </Link>
+    <header className={`header ${isLoggedIn && "header_loggedIn"}`}>
+      <HeaderLogoLink />
       <Navigation />
     </header>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import ButtonFilmLoadMore from "../My/ButtonFilmLoadMore/ButtonFilmLoadMore";
+import ButtonFilmLoadMore from "../UI/ButtonFilmLoadMore/ButtonFilmLoadMore";
 import "./MoviesCardList.css";
 
 function MoviesCardList({ isSaved, films }) {

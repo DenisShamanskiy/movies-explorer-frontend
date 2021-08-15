@@ -1,7 +1,7 @@
 import React from "react";
 import Film from "../../images/dune_image.jpg";
-import ButtonFilmAdd from "../My/ButtonFilmAdd/ButtonFilmAdd";
-import ButtonFilmDelete from "../My/ButtonFilmDelete/ButtonFilmDelete";
+import ButtonFilmAdd from "../UI/ButtonFilmAdd/ButtonFilmAdd";
+import ButtonFilmDelete from "../UI/ButtonFilmDelete/ButtonFilmDelete";
 import "./MoviesCard.css";
 
 function MoviesCard() {

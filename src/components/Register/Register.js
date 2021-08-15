@@ -1,6 +1,6 @@
 import "./Register.css";
 import SignForm from "../SignForm/SignForm";
-import SignInput from "../My/SignInput/SignInput";
+import SignInput from "../UI/SignInput/SignInput";
 import { Link } from "react-router-dom";
 import HeaderLogo from "../../images/header_logo.svg";
 

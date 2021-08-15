@@ -1,7 +1,7 @@
 import React from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import Divider from "../My/Divider/Divider";
+import Divider from "../UI/Divider/Divider";
 import "./SavedMovies.css";
 
 function SavedMovies() {

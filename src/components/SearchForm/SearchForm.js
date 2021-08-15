@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FilterCheckbox from "../My/FilterCheckbox/FilterCheckbox";
+import FilterCheckbox from "../UI/FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
 function SearchForm() {

@@ -1,11 +1,10 @@
 import React from "react";
 import "./ButtonFilmAdd.css";
 
-function ButtonFilmAdd() {
-  const isAdded = false;
+function ButtonFilmAdd({ num }) {
   return (
     <>
-      {!isAdded ? (
+      {num >= 0 && num <= 2 ? (
         <button className="button-film-add " type="button">
           Сохранить
         </button>

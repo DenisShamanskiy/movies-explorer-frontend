@@ -1,13 +1,13 @@
 import "./Header.css";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import HeaderLogoLink from "../UI/HeaderLogoLink/HeaderLogoLink";
 import Navigation from "../Navigation/Navigation";
 
 function Header() {
-  const isLoggedIn = false;
-
+  const { pathname } = useLocation();
   return (
-    <header className={`header ${isLoggedIn && "header_loggedIn"}`}>
+    <header className={pathname === "/" ? "header header_main" : "header"}>
       <HeaderLogoLink />
       <Navigation />
     </header>

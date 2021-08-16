@@ -46,7 +46,8 @@
 
 .search-form__text-input:focus {
   outline: none;
-  border: none;
+  border: 1px solid #4285f4;
+  padding: 13px 21px;
 }
 
 .search-form__button {

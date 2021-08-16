@@ -7,12 +7,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: #073042;
+  background-color: #202020;
   box-sizing: border-box;
 }
 
-.header_loggedIn {
-  background-color: #202020;
+.header_main {
+  background-color: #073042;
 }
 
 .header__logo {

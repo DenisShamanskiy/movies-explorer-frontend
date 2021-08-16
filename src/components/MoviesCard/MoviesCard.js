@@ -4,9 +4,7 @@ import ButtonFilmAdd from "../UI/ButtonFilmAdd/ButtonFilmAdd";
 import ButtonFilmDelete from "../UI/ButtonFilmDelete/ButtonFilmDelete";
 import "./MoviesCard.css";
 
-function MoviesCard() {
-  const savedMovies = false;
-
+function MoviesCard({ num }) {
   return (
     <div className="movie-card">
       <div className="movie-card__header">
@@ -25,7 +23,11 @@ function MoviesCard() {
           alt="В погоне за Бенкси"
         />
       </a>
-      {savedMovies ? <ButtonFilmDelete /> : <ButtonFilmAdd />}
+      {num >= 3 && num <= 5 ? (
+        <ButtonFilmDelete />
+      ) : (
+        <ButtonFilmAdd num={num} />
+      )}
     </div>
   );
 }

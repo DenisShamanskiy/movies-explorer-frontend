@@ -8,7 +8,7 @@ function SavedMovies() {
   return (
     <div className="saved-movies">
       <SearchForm />
-      <MoviesCardList films={[...Array(3).keys()]} />
+      <MoviesCardList films={[...Array(11).keys()]} />
       <Divider />
     </div>
   );

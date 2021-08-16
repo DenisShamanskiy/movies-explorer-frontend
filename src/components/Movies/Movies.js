@@ -7,7 +7,7 @@ function Movies() {
   return (
     <div className="movies">
       <SearchForm />
-      <MoviesCardList films={[...Array(12).keys()]} />
+      <MoviesCardList films={[...Array(9).keys()]} />
     </div>
   );
 }

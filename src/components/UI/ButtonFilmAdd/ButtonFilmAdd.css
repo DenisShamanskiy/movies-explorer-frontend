@@ -1,0 +1,38 @@
+.button-film-add {
+  margin: 18px auto;
+  padding: 0;
+  width: 100px;
+  min-height: 29px;
+  border-radius: 30px;
+  background-color: #313131;
+  font-family: "Inter", ‘Arial’, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 11px;
+  text-align: center;
+  color: #fff;
+  border: none;
+  opacity: 1;
+}
+
+.button-film-is-added {
+  background: center center no-repeat
+      url("../../../images/button-film-is-added.svg"),
+    #ee3465;
+}
+
+.button-film-add:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.button-film-add:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 425px) {
+  .button-film-add {
+    margin: 14px auto;
+  }
+}

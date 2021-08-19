@@ -1,6 +1,6 @@
 import "./Profile.css";
 
-function Profile({ editProfile }) {
+function Profile({ onSignOut }) {
   return (
     <>
       <section className="profile">
@@ -16,10 +16,14 @@ function Profile({ editProfile }) {
           </li>
         </ul>
 
-        <button type="button" className="profile__button" onClick={editProfile}>
+        <button type="button" className="profile__button">
           Редактировать
         </button>
-        <button type="button" className="profile__button_logout">
+        <button
+          type="button"
+          className="profile__button_logout"
+          onClick={onSignOut}
+        >
           Выйти из аккаунта
         </button>
       </section>

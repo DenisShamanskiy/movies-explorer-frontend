@@ -59,6 +59,13 @@ function App() {
     });
   }
 
+  function handleSignOut() {
+    setLoggedIn(false);
+    setCurrentUser({ email: "", name: "" });
+    localStorage.setItem("token", "");
+    history.push("/");
+  }
+
   return (
     <SignContext.Provider value={{ loggedIn, setLoggedIn }}>
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
@@ -82,7 +89,11 @@ function App() {
                 component={Login}
                 onLogin={login}
               />
-              <ProtectedRoute path="/profile" component={Profile} />
+              <ProtectedRoute
+                path="/profile"
+                component={Profile}
+                onSignOut={handleSignOut}
+              />
               <ProtectedRoute path="/movies" component={Movies} />
               <ProtectedRoute path="/saved-movies" component={SavedMovies} />
 

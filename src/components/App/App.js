@@ -10,7 +10,6 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import Preloader from "../Preloader/Preloader";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { SignContext } from "../../contexts/SignContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -59,6 +58,12 @@ function App() {
     });
   }
 
+  function updateUser(name, email) {
+    return mainApi
+      .changeInfoProfile(name, email)
+      .then((res) => setCurrentUser({ email: res.email, name: res.name }));
+  }
+
   function handleSignOut() {
     setLoggedIn(false);
     setCurrentUser({ email: "", name: "" });
@@ -92,6 +97,7 @@ function App() {
               <ProtectedRoute
                 path="/profile"
                 component={Profile}
+                onUpdateUser={updateUser}
                 onSignOut={handleSignOut}
               />
               <ProtectedRoute path="/movies" component={Movies} />
@@ -104,7 +110,6 @@ function App() {
             <Route exact path={["/", "/movies", "/saved-movies"]}>
               <Footer />
             </Route>
-            <Preloader />
           </div>
         </div>
       </CurrentUserContext.Provider>

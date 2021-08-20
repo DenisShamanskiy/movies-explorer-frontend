@@ -38,6 +38,7 @@ function Register({ onRegister }) {
           <SignForm
             title="Добро пожаловать!"
             submitBtnText="Зарегистрироваться"
+            linkTo="/signin"
             text="Уже зарегистрированы?"
             textLink="Войти"
             handleSubmit={handleRegister}

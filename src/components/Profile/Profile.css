@@ -12,6 +12,12 @@
   background-color: #202020;
 }
 
+.profile__message {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .profile__title {
   margin: 0 0 123px 0;
   font-family: "Inter", ‘Arial’, sans-serif;
@@ -33,33 +39,55 @@
 }
 
 .profile__item {
-  height: 30px;
-  margin-bottom: 17px;
+  height: 46px;
+  margin: 0;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
   border-bottom: 1px solid #424242;
 }
+
+.profile__item:last-child {
+  border: none;
+}
+
+.profile__input {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  background-color: #202020;
+  border: none;
+  box-sizing: border-box;
+  color: #fff;
+}
+.profile__input:focus {
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: left;
+  outline: none;
+  border-radius: 50px;
+  border: 1px solid #4285f4;
+}
+
 .profile__item:last-child {
   margin-bottom: 0;
 }
 
 .profile__item-name {
-  font-weight: 400;
+  width: 141px;
 }
-.profile__item-value {
+.profile__input {
   font-weight: 500;
 }
 
 .profile__item-name,
-.profile__item-value {
-  margin-top: 0;
+.profile__input {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
   font-size: 11px;
   line-height: 13px;
-}
-
-.profile__item-name:last-child + .profile__item-value:last-child {
-  margin: 17px 0 0 0;
 }
 
 .profile__button {
@@ -100,6 +128,33 @@
   opacity: 0.6;
 }
 
+#blink {
+  -webkit-animation: blink 2s linear infinite;
+  animation: blink 2s linear infinite;
+}
+@-webkit-keyframes blink5 {
+  0% {
+    color: rgb(128, 0, 0);
+  }
+  50% {
+    color: rgb(183, 65, 14);
+  }
+  100% {
+    color: rgb(128, 0, 0);
+  }
+}
+@keyframes blink5 {
+  0% {
+    color: rgb(128, 0, 0);
+  }
+  50% {
+    color: rgb(183, 65, 14);
+  }
+  100% {
+    color: rgb(128, 0, 0);
+  }
+}
+
 @media screen and (max-width: 768px) {
   .profile {
     padding: 236px 0 269px 0;
@@ -121,6 +176,9 @@
   }
   .profile__form {
     min-width: 260px;
+  }
+  .profile__item-name {
+    width: 130px;
   }
   .profile__form-submit {
     margin: 379px 0 auto;

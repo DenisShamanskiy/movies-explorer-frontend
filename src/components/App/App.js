@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import Main from "../Main/Main";
 import Login from "../Login/Login";
@@ -17,15 +17,13 @@ import ProtectedRouteAfterSign from "../ProtectedRouteAfterSign/ProtectedRouteAf
 import mainApi from "../../utils/MainApi";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({ email: "", name: "" });
-  /*const [loggedIn, setLoggedIn] = useState(
-    Boolean(localStorage.getItem("token"))
-  );*/
-
   const history = useHistory();
+  const [currentUser, setCurrentUser] = useState({ email: "", name: "" });
+  const [loggedIn, setLoggedIn] = useState(
+    Boolean(localStorage.getItem("token"))
+  );
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (localStorage.getItem("token")) {
       mainApi
         .getMe()
@@ -39,7 +37,7 @@ function App() {
           localStorage.setItem("token", "");
         });
     }
-  }, []);*/
+  }, []);
 
   function login(email, password) {
     return mainApi.login(email, password).then((res) => {
@@ -66,8 +64,10 @@ function App() {
 
   function handleSignOut() {
     setLoggedIn(false);
-    setCurrentUser({ email: "", name: "" });
-    localStorage.setItem("token", "");
+    setCurrentUser({});
+    localStorage.removeItem("token");
+    localStorage.removeItem("movies");
+    localStorage.removeItem("savedMovies");
     history.push("/");
   }
 

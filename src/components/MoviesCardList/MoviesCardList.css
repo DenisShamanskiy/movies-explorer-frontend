@@ -17,6 +17,14 @@
   margin: 0;
   box-sizing: border-box;
 }
+.search__message {
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  text-decoration: none;
+  color: #ffffff;
+}
 
 @media screen and (max-width: 768px) {
   .movies-card-list__list {

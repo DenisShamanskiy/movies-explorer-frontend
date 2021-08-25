@@ -1,17 +1,18 @@
 import React from "react";
 import "./ButtonFilmAdd.css";
 
-function ButtonFilmAdd({ num }) {
+function ButtonFilmAdd({ savedID, onClick }) {
   return (
     <>
-      {num >= 0 && num <= 2 ? (
-        <button className="button-film-add " type="button">
+      {!savedID ? (
+        <button className="button-film-add " type="button" onClick={onClick}>
           Сохранить
         </button>
       ) : (
         <button
           className="button-film-add button-film-is-added"
           type="button"
+          onClick={onClick}
         ></button>
       )}
     </>

@@ -1,5 +1,6 @@
 import "./Profile.css";
 import React, { useState, useContext, useEffect } from "react";
+import useFormWithValidation from "../../hooks/useFormWithValidation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
 import {
@@ -37,7 +38,9 @@ function Profile({ onSignOut, onUpdateUser }) {
     e.preventDefault();
     setIsLoader(true);
     onUpdateUser(nameInputValue, emailInputValue)
-      .then(() => setProfileMessage(messageUpdateProfileOk))
+      .then(() => {
+        setProfileMessage(messageUpdateProfileOk);
+      })
       .catch((err) => {
         setNameInputValue(currentUser.name);
         setEmailInputValue(currentUser.email);

@@ -1,5 +1,6 @@
 .movies {
   min-width: 320px;
+  min-height: 69vh;
   padding: 0 70px;
   display: flex;
   flex-direction: column;

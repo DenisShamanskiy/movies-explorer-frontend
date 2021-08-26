@@ -48,7 +48,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  changeInfoProfile(name, email) {
+  updateUser(name, email) {
     return fetch(`${this._urlBackend}/users/me`, {
       method: "PATCH",
       headers: {

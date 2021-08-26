@@ -18,10 +18,13 @@ import mainApi from "../../utils/MainApi";
 
 function App() {
   const history = useHistory();
-  const [currentUser, setCurrentUser] = useState({ email: "", name: "" });
+  const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(
     Boolean(localStorage.getItem("token"))
   );
+  /// Profile ///
+  const [editIsSuccess, setEditIsSuccess] = useState(false);
+  const [editIsFailed, setEditIsFailed] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -56,11 +59,26 @@ function App() {
     });
   }
 
-  function updateUser(name, email) {
-    return mainApi
-      .changeInfoProfile(name, email)
-      .then((res) => setCurrentUser({ email: res.email, name: res.name }));
-  }
+  const updateUser = (updateUserData) => {
+    const { name, email } = updateUserData;
+    mainApi
+      .updateUser(name, email)
+      .then((res) => {
+        setCurrentUser({ email: res.email, name: res.name });
+        setEditIsSuccess(true);
+        setEditIsFailed(false);
+        setTimeout(() => {
+          setEditIsSuccess(false);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        setEditIsFailed(true);
+        setTimeout(() => {
+          setEditIsFailed(false);
+        }, 3000);
+      });
+  };
 
   function handleSignOut() {
     setLoggedIn(false);
@@ -97,6 +115,9 @@ function App() {
               <ProtectedRoute
                 path="/profile"
                 component={Profile}
+                currentUser={currentUser}
+                editIsSuccess={editIsSuccess}
+                editIsFailed={editIsFailed}
                 onUpdateUser={updateUser}
                 onSignOut={handleSignOut}
               />

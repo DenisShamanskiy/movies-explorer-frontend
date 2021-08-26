@@ -1,118 +1,93 @@
 import "./Profile.css";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import Preloader from "../Preloader/Preloader";
-import {
-  messageUpdateProfileFale,
-  messageUpdateProfileOk,
-} from "../../utils/constants";
 
-function Profile({ onSignOut, onUpdateUser }) {
-  const userContext = useContext(CurrentUserContext);
-  const { currentUser } = userContext;
-
-  const [isLoader, setIsLoader] = useState(false);
-
-  const [nameInputValue, setNameInputValue] = useState(currentUser.name);
-  const [emailInputValue, setEmailInputValue] = useState(currentUser.email);
-
-  const [isDisableChange, setIsDisableChange] = useState(true);
-  const [profileMessage, setProfileMessage] = useState("");
-
+function Profile({
+  currentUser,
+  onSignOut,
+  onUpdateUser,
+  editIsSuccess,
+  editIsFailed,
+}) {
+  const { values, setValues, handleChange, errors, isValid, setIsValid } =
+    useFormWithValidation();
+  ///
   useEffect(() => {
-    setNameInputValue(currentUser.name);
-    setEmailInputValue(currentUser.email);
-    setIsDisableChange(true);
-  }, [currentUser]);
+    setValues(currentUser);
+    setIsValid(true);
+  }, [currentUser, setValues, setIsValid]);
 
-  function handleChangeName(e) {
-    setNameInputValue(e.target.value);
-  }
-
-  function handleChangeEmail(e) {
-    setEmailInputValue(e.target.value);
-  }
-
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoader(true);
-    onUpdateUser(nameInputValue, emailInputValue)
-      .then(() => {
-        setProfileMessage(messageUpdateProfileOk);
-      })
-      .catch((err) => {
-        setNameInputValue(currentUser.name);
-        setEmailInputValue(currentUser.email);
-        setIsDisableChange(true);
-        setProfileMessage(messageUpdateProfileFale);
-        console.log(err);
-      })
-      .finally(() => setIsLoader(false));
-  }
-
-  useEffect(() => {
-    setProfileMessage("");
-    if (
-      nameInputValue === currentUser.name &&
-      emailInputValue === currentUser.email
-    ) {
-      setIsDisableChange(true);
-    } else {
-      setIsDisableChange(false);
-    }
-  }, [nameInputValue, emailInputValue, currentUser.name, currentUser.email]);
+    onUpdateUser(values);
+  };
 
   return (
-    <>
-      {isLoader ? (
-        <Preloader />
-      ) : (
-        <form className="profile" onSubmit={handleSubmit}>
-          <h2 className="profile__title">Привет, {currentUser.name}!</h2>
-          <ul className="profile__info">
-            <li className="profile__item">
-              <p className="profile__item-name">Имя</p>
-              <input
-                type="text"
-                name="user-name"
-                className="profile__input"
-                value={nameInputValue}
-                onChange={handleChangeName}
-              />
-            </li>
-            <li className="profile__item">
-              <p className="profile__item-name">E-mail</p>
-              <input
-                type="text"
-                name="user-email"
-                className="profile__input"
-                value={emailInputValue}
-                onChange={handleChangeEmail}
-              />
-            </li>
-          </ul>
-          <p className="profile__message" id="blink">
-            {profileMessage}
+    <div className="profile">
+      <h2 className="profile__title">Привет, {currentUser.name}!</h2>
+      <form className="profile__form" onSubmit={handleSubmit}>
+        <label className="profile__form-label" htmlFor="name">
+          Имя
+          <input
+            className="profile__form-input"
+            id="name"
+            required
+            minLength="2"
+            maxLength="30"
+            name="name"
+            type="text"
+            placeholder="Имя"
+            value={values.name || ""}
+            onChange={handleChange}
+          />
+        </label>
+        <span className="profile__form-error">{errors.name}</span>
+        <label className="profile__form-label" htmlFor="email">
+          E-mail
+          <input
+            className="profile__form-input"
+            id="email"
+            required
+            name="email"
+            type="email"
+            placeholder="Почта"
+            value={values.email || ""}
+            onChange={handleChange}
+            autoComplete="off"
+          />
+        </label>
+        <span className="profile__form-error">{errors.email}</span>
+        {editIsSuccess && (
+          <p className="profile__form-submit-success">
+            Данные успешно изменены
           </p>
+        )}
+        {editIsFailed && (
+          <p className="profile__form-submit-failed">
+            Ошибка при изменении данных
+          </p>
+        )}
 
-          <button
-            type="submit"
-            className="profile__button"
-            disabled={isDisableChange}
-          >
-            Редактировать
-          </button>
-          <button
-            type="button"
-            className="profile__button_logout"
-            onClick={onSignOut}
-          >
-            Выйти из аккаунта
-          </button>
-        </form>
-      )}
-    </>
+        <button
+          type="submit"
+          className="profile__form-submit"
+          disabled={
+            (values.name === currentUser.name &&
+              values.email === currentUser.email) ||
+            !isValid
+          }
+        >
+          Редактировать
+        </button>
+        <button
+          type="button"
+          className="profile__button_logout"
+          onClick={onSignOut}
+        >
+          Выйти из аккаунта
+        </button>
+      </form>
+    </div>
   );
 }
 

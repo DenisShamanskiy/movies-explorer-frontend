@@ -21,6 +21,7 @@
 }
 
 .search-form__search-input-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,7 +34,7 @@
 
 .search-form__text-input {
   width: 100%;
-  padding: 13px 0 13px 0;
+  padding: 13px 90px 13px 0;
   background-color: #202020;
   border: none;
   border-radius: 50px;
@@ -47,14 +48,15 @@
 .search-form__text-input:focus {
   outline: none;
   border: 1px solid #4285f4;
-  padding: 13px 21px;
+  padding: 13px 85px 13px 21px;
 }
 
 .search-form__button {
+  position: absolute;
+  right: 16px;
   width: 59px;
   height: 34px;
   padding: 8px 10.35px;
-  margin-left: 21px;
   background-color: #4285f4;
   border: none;
   border-radius: 48px;

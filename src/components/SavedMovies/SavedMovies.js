@@ -4,63 +4,84 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Divider from "../UI/Divider/Divider";
 import Preloader from "../Preloader/Preloader";
-import mainApi from "../../utils/MainApi";
+import { EMPTY_SEARCH_MESSAGE } from "../../utils/constants";
 
-function SavedMovies() {
-  const [isLoader, setIsLoader] = useState(false);
-  const [savedMovies, setSavedMovies] = useState([]);
-  const [findedMovies, setFindedMovies] = useState([]);
-  const [filteredSavedMovies, setFilteredSavedMovies] = useState(
-    JSON.parse(localStorage.getItem("savedMovies"))
-  );
-  const [resultSearchMessage, setResultSearchMessage] = useState("");
+function SavedMovies({
+  savedMovies,
+  mySavedMovies,
+  movies,
+  isLoader,
+  loadingError,
+  setLoadingError,
+  setIsLoader,
+  loggedIn,
+  getSavedMovies,
+  setSavedMovies,
+}) {
+  const [filterIsOn, setFilterIsOn] = useState(false);
+
+  const filterShortFilm = (moviesToFilter) =>
+    moviesToFilter.filter((item) => item.duration < 40);
+  const onFilterClick = () => {
+    setFilterIsOn(!filterIsOn);
+  };
+
+  const [moviesToRender, setMoviesToRender] = useState([]);
 
   useEffect(() => {
-    mainApi.getSavedMovies().then((res) => {
-      setSavedMovies(res);
-    });
-  }, []);
+    setMoviesToRender(movies);
+  }, [movies]);
 
-  useEffect(() => {
-    setFindedMovies(savedMovies);
-  }, [savedMovies]);
+  const searchFilter = (data, searchText) => {
+    if (searchText) {
+      const searchMoviesArr = data.filter((item) => {
+        return item.nameRU.includes(searchText);
+      });
+      if (searchMoviesArr.length === 0) {
+        setLoadingError(EMPTY_SEARCH_MESSAGE);
+      } else {
+        setLoadingError("");
+      }
+      return searchMoviesArr;
+    }
+    return [];
+  };
 
-  function searchSavedMovies(phrase) {
+  const searchInSavedHandler = (searchText) => {
     setIsLoader(true);
-    setFindedMovies(
-      savedMovies.filter((item) => {
-        return item.nameRU.includes(phrase);
-      })
-    );
-  }
+    setTimeout(() => {
+      setMoviesToRender(searchFilter(movies, searchText));
+      setIsLoader(false);
+    }, 600);
+  };
+
+  const handleRemove = (movie) => {
+    setSavedMovies(mySavedMovies.filter((m) => m._id !== movie._id));
+  };
 
   useEffect(() => {
-    setIsLoader(false);
-    localStorage.setItem("savedMovies", JSON.stringify(filteredSavedMovies));
-  }, [filteredSavedMovies]);
-
-  function handleDeleteMovie(movie) {
-    setSavedMovies(savedMovies.filter((m) => m._id !== movie._id));
-  }
+    if (loggedIn) {
+      getSavedMovies();
+    }
+  }, [loggedIn]);
 
   return (
     <div className="saved-movies">
-      <SearchForm
-        search={searchSavedMovies}
-        movies={findedMovies}
-        setFilteredMovies={setFilteredSavedMovies}
-      />
-      {isLoader ? (
-        <Preloader />
-      ) : (
-        filteredSavedMovies && (
-          <MoviesCardList
-            movies={filteredSavedMovies || []}
-            message={resultSearchMessage}
-            setMessage={setResultSearchMessage}
-            handleDeleteMovie={handleDeleteMovie}
-          />
-        )
+      <SearchForm search={searchInSavedHandler} onFilterClick={onFilterClick} />
+      {isLoader && <Preloader />}
+
+      {!isLoader && loadingError === "" && (
+        <MoviesCardList
+          savedMovies={savedMovies}
+          mySavedMovies={mySavedMovies}
+          movies={filterIsOn ? filterShortFilm(moviesToRender) : moviesToRender}
+          message={loadingError}
+          handleRemove={handleRemove}
+        />
+      )}
+
+      {!isLoader && loadingError !== "" && (
+        <div className="movies__error">{loadingError}</div>
       )}
       <Divider />
     </div>

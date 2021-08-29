@@ -15,16 +15,25 @@ import { SignContext } from "../../contexts/SignContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProtectedRouteAfterSign from "../ProtectedRouteAfterSign/ProtectedRouteAfterSign";
 import mainApi from "../../utils/MainApi";
+import { getMovies } from "../../utils/MoviesApi";
+import {
+  ERROR_LOAD_MESSAGE,
+  EMPTY_SEARCH_MESSAGE,
+} from "../../utils/constants";
 
 function App() {
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState({});
+  const [editIsSuccess, setEditIsSuccess] = useState(false);
+  const [editIsFailed, setEditIsFailed] = useState(false);
+  const [allMovies, setAllMovies] = useState([]);
+  const [loadingError, setLoadingError] = useState("");
+  const [filterMovies, setFilterMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
   const [loggedIn, setLoggedIn] = useState(
     Boolean(localStorage.getItem("token"))
   );
-  /// Profile ///
-  const [editIsSuccess, setEditIsSuccess] = useState(false);
-  const [editIsFailed, setEditIsFailed] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -84,11 +93,83 @@ function App() {
     setLoggedIn(false);
     setCurrentUser({});
     localStorage.removeItem("token");
-    localStorage.removeItem("movies");
+    localStorage.removeItem("allMovies");
     localStorage.removeItem("savedMovies");
     history.push("/");
   }
 
+  const getAllMoviesData = () => {
+    getMovies()
+      .then((data) => {
+        const allMoviesData = data.map((item) => {
+          const imageURL = item.image ? item.image.url : "";
+          return {
+            ...item,
+            image: `https://api.nomoreparties.co${imageURL}`,
+            trailer: item.trailerLink,
+          };
+        });
+
+        localStorage.setItem("allMovies", JSON.stringify(allMoviesData));
+        setAllMovies(allMoviesData);
+      })
+      .catch(() => {
+        localStorage.removeItem("allMovies");
+        setLoadingError(ERROR_LOAD_MESSAGE);
+      });
+  };
+
+  const getSavedMovies = () => {
+    mainApi
+      .getSavedMovies()
+      .then((data) => {
+        const savedArray = data.map((item) => ({ ...item, id: item.movieId }));
+        localStorage.setItem("savedMovies", JSON.stringify(savedArray));
+        setSavedMovies(savedArray);
+      })
+      .catch(() => {
+        localStorage.removeItem("savedMovies");
+        setLoadingError(ERROR_LOAD_MESSAGE);
+      });
+  };
+
+  useEffect(() => {
+    const allMoviesLocal = JSON.parse(localStorage.getItem("allMovies"));
+    if (loggedIn && allMoviesLocal) {
+      setAllMovies(allMoviesLocal);
+    } else {
+      getAllMoviesData();
+    }
+    const allSavedMoviesLocal = JSON.parse(localStorage.getItem("savedMovies"));
+    if (allSavedMoviesLocal) {
+      setSavedMovies(allSavedMoviesLocal);
+    } else {
+      getSavedMovies();
+    }
+  }, [loggedIn]);
+
+  const searchFilter = (data, searchText) => {
+    if (searchText) {
+      const searchMoviesArr = data.filter((item) => {
+        return item.nameRU.includes(searchText);
+      });
+      if (searchMoviesArr.length === 0) {
+        setLoadingError(EMPTY_SEARCH_MESSAGE);
+      } else {
+        setLoadingError("");
+      }
+      return searchMoviesArr;
+    }
+    return [];
+  };
+
+  const searchMovies = (searchText) => {
+    setIsLoader(true);
+    setTimeout(() => {
+      setFilterMovies(searchFilter(allMovies, searchText));
+      setIsLoader(false);
+    }, 600);
+  };
   return (
     <SignContext.Provider value={{ loggedIn, setLoggedIn }}>
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
@@ -121,8 +202,33 @@ function App() {
                 onUpdateUser={updateUser}
                 onSignOut={handleSignOut}
               />
-              <ProtectedRoute path="/movies" component={Movies} />
-              <ProtectedRoute path="/saved-movies" component={SavedMovies} />
+              <ProtectedRoute
+                path="/movies"
+                component={Movies}
+                loggedIn={loggedIn}
+                isLoader={isLoader}
+                loadingError={loadingError}
+                savedMovies={false}
+                movies={filterMovies}
+                searchMovies={searchMovies}
+                setLoadingError={setLoadingError}
+                mySavedMovies={savedMovies}
+                setSavedMovies={setSavedMovies}
+              />
+              <ProtectedRoute
+                path="/saved-movies"
+                component={SavedMovies}
+                loggedIn={loggedIn}
+                isLoader={isLoader}
+                setIsLoader={setIsLoader}
+                loadingError={loadingError}
+                savedMovies
+                movies={savedMovies}
+                setLoadingError={setLoadingError}
+                getSavedMovies={getSavedMovies}
+                setSavedMovies={setSavedMovies}
+                mySavedMovies={savedMovies}
+              />
 
               <Route path="/*">
                 <PageNotFound />

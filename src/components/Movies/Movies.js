@@ -1,73 +1,53 @@
 import "./Movies.css";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import Divider from "../UI/Divider/Divider";
 import Preloader from "../Preloader/Preloader";
-import { getMovies } from "../../utils/MoviesApi";
+import { SHORT_MOVIE } from "../../utils/constants";
 
-function Movies() {
-  const [movies, setMovies] = useState([]);
-  const [allMovies, setAllMovies] = useState([]);
-  const [isLoader, setIsLoader] = useState(false);
-  const [resultSearchMessage, setResultSearchMessage] = useState("");
-  const [filteredMovies, setFilteredMovies] = useState(
-    JSON.parse(localStorage.getItem("movies"))
-  );
+function Movies({
+  savedMovies,
+  mySavedMovies,
+  searchMovies,
+  movies,
+  isLoader,
+  loadingError,
+  setLoadingError,
+  loggedIn,
+  setSavedMovies,
+}) {
+  const [filterIsOn, setFilterIsOn] = useState(false);
 
-  const searchFilter = (data, searchText) => {
-    if (searchText) {
-      const searchMoviesArr = data.filter((item) => {
-        return item.nameRU.includes(searchText);
-      });
-      if (searchMoviesArr.length === 0) {
-        setResultSearchMessage("Ничего не найдено");
-      } else {
-        setResultSearchMessage("");
-      }
-      return searchMoviesArr;
+  const filterShortFilm = (moviesToFilter) =>
+    moviesToFilter.filter((item) => item.duration < SHORT_MOVIE);
+
+  const onFilterClick = () => {
+    setFilterIsOn(!filterIsOn);
+  };
+
+  useEffect(() => {
+    if (loggedIn) {
+      setLoadingError("");
     }
-    return [];
-  };
-
-  const searchMovies = (searchText) => {
-    setIsLoader(true);
-    setTimeout(() => {
-      setMovies(searchFilter(allMovies, searchText));
-      setIsLoader(false);
-    }, 600);
-  };
-
-  useEffect(() => {
-    getMovies()
-      .then((res) => setAllMovies(res))
-      .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    setIsLoader(false);
-    localStorage.setItem("movies", JSON.stringify(filteredMovies));
-  }, [filteredMovies]);
+  });
 
   return (
     <div className="movies">
-      <SearchForm
-        search={searchMovies}
-        setFilteredMovies={setFilteredMovies}
-        movies={movies}
-      />
-      {isLoader ? (
-        <Preloader />
-      ) : (
-        filteredMovies && (
-          <MoviesCardList
-            movies={filteredMovies || []}
-            message={resultSearchMessage}
-            setMessage={setResultSearchMessage}
-          />
-        )
+      <SearchForm onFilterClick={onFilterClick} search={searchMovies} />
+      {isLoader && <Preloader />}
+
+      {!isLoader && loadingError === "" && (
+        <MoviesCardList
+          savedMovies={savedMovies}
+          movies={filterIsOn ? filterShortFilm(movies) : movies}
+          setSavedMovies={setSavedMovies}
+          mySavedMovies={mySavedMovies}
+        />
       )}
-      <Divider />
+
+      {!isLoader && loadingError !== "" && (
+        <div className="movies__error">{loadingError}</div>
+      )}
     </div>
   );
 }

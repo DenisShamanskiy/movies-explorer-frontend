@@ -1,4 +1,4 @@
-import { urlBackend, urlMovieImage } from "./constants";
+import { URL_BACKEND, URL_MOVIE_IMAGE } from "./constants";
 
 class MainApi {
   constructor(urlBackend, moviesUrlImage) {
@@ -73,56 +73,12 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  postMovie({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    id,
-    nameRU,
-    nameEN,
-  }) {
+  postMovie(data) {
     return fetch(`${this._urlBackend}/movies`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        country: country || "unknown",
-        director: director || "unknown",
-        duration: duration || "No data",
-        year: year || "unknown",
-        description: description || "No description",
-        image: `${this._moviesUrlImage}${image.url}`,
-        trailer: trailerLink || "No trailer",
-        thumbnail:
-          `${this._moviesUrlImage}${image.formats.thumbnail.url}` || "No image",
-        movieId: id || "No data",
-        nameRU: nameRU || "No name",
-        nameEN: nameEN || "No name",
-      }),
-    }).then(this._checkResponse);
-  }
-
-  deleteMovie(movieID) {
-    return fetch(`${this._urlBackend}/movies/${movieID}`, {
-      method: "DELETE",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }).then(this._checkResponse);
-  }
-  addBookmark(data) {
-    return fetch(`${this._urlBackend}/movies`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
       },
       body: JSON.stringify({
         country: data.country || "unknown",
@@ -139,17 +95,16 @@ class MainApi {
       }),
     }).then(this._checkResponse);
   }
-  removeBookmark(movieId) {
-    return fetch(`${this._urlBackend}/movies/${movieId}`, {
+
+  deleteMovie(movieID) {
+    return fetch(`${this._urlBackend}/movies/${movieID}`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
       },
     }).then(this._checkResponse);
   }
 }
-const mainApi = new MainApi(urlBackend, urlMovieImage);
+const mainApi = new MainApi(URL_BACKEND, URL_MOVIE_IMAGE);
 
 export default mainApi;

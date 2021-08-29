@@ -1,6 +1,10 @@
 import "./Profile.css";
 import React, { useEffect } from "react";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
+import {
+  MESSAGE_UPDATE_PROFILE_OK,
+  MESSAGE_UPDATE_PROFILE_FALE,
+} from "../../utils/constants";
 
 function Profile({
   currentUser,
@@ -59,12 +63,12 @@ function Profile({
         <span className="profile__form-error">{errors.email}</span>
         {editIsSuccess && (
           <p className="profile__form-submit-success">
-            Данные успешно изменены
+            {MESSAGE_UPDATE_PROFILE_OK}
           </p>
         )}
         {editIsFailed && (
           <p className="profile__form-submit-failed">
-            Ошибка при изменении данных
+            {MESSAGE_UPDATE_PROFILE_FALE}
           </p>
         )}
 

@@ -1,4 +1,4 @@
-import { urlDataMovies } from "./constants";
+import { URL_DATA_MOVIES } from "./constants";
 
 const checkResponse = (res) =>
   res.ok
@@ -12,7 +12,7 @@ const checkResponse = (res) =>
         );
 
 export const getMovies = () =>
-  fetch(`${urlDataMovies}`, {
+  fetch(`${URL_DATA_MOVIES}`, {
     headers: {
       "Content-Type": "application/json",
     },

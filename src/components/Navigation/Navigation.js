@@ -1,17 +1,21 @@
 import "./Navigation.css";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { SignContext } from "../../contexts/SignContext";
 
 function Navigation() {
+  const logContext = useContext(SignContext);
+  const { loggedIn } = logContext;
+
   const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false);
 
   const { pathname } = useLocation();
 
-  const pathnameList = ["/profile", "/movies", "/saved-movies"];
+  const pathnameList = ["/profile", "/movies", "/saved-movies", "/"];
 
   return (
     <>
-      {pathname === "/" && (
+      {pathname === "/" && !loggedIn && (
         <nav className="navigation">
           <Link className="navigation__link-signup" to="/signup">
             Регистрация
@@ -23,7 +27,7 @@ function Navigation() {
           </Link>
         </nav>
       )}
-      {pathnameList.some((i) => i === pathname) && (
+      {pathnameList.some((i) => i === pathname) && loggedIn && (
         <>
           <nav className="navigation navigation_hidden">
             <NavLink
@@ -66,6 +70,7 @@ function Navigation() {
                   to="/"
                   className="burger-navigation-link"
                   activeClassName="burger-navigation-link_active"
+                  onClick={() => setBurgerMenuOpen(false)}
                 >
                   Главная
                 </NavLink>

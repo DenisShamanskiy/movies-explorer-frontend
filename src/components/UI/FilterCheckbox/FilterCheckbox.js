@@ -1,10 +1,15 @@
-import React from "react";
 import "./FilterCheckbox.css";
+import React from "react";
 
-function FilterCheckbox() {
+function FilterCheckbox({ onFilterClick }) {
   return (
     <div className="filter-checkbox">
-      <input className="filter-checkbox__switcher" type="checkbox" />
+      <input
+        className="filter-checkbox__switcher"
+        id="film"
+        type="checkbox"
+        onClick={onFilterClick}
+      />
     </div>
   );
 }

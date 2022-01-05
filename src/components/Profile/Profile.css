@@ -11,7 +11,6 @@
   box-sizing: border-box;
   background-color: #202020;
 }
-
 .profile__title {
   margin: 0 0 123px 0;
   font-family: "Inter", ‘Arial’, sans-serif;
@@ -23,48 +22,56 @@
   color: #fff;
 }
 
-.profile__info {
-  margin: 0 0 220px 0;
-  padding: 0;
+.profile__form {
+  width: 100%;
+  max-width: 410px;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  list-style: none;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-.profile__item {
-  height: 30px;
-  margin-bottom: 17px;
+.profile__form-label {
+  height: 47px;
+  position: relative;
   display: flex;
   justify-content: space-between;
-  box-sizing: border-box;
+  align-items: center;
+  width: 100%;
   border-bottom: 1px solid #424242;
-}
-.profile__item:last-child {
-  margin-bottom: 0;
-}
-
-.profile__item-name {
-  font-weight: 400;
-}
-.profile__item-value {
-  font-weight: 500;
-}
-
-.profile__item-name,
-.profile__item-value {
-  margin-top: 0;
   font-size: 11px;
-  line-height: 13px;
+  font-weight: 500;
+  line-height: 1.18;
+  white-space: nowrap;
+}
+.profile__form-label:last-of-type {
+  border-bottom: none;
 }
 
-.profile__item-name:last-child + .profile__item-value:last-child {
-  margin: 17px 0 0 0;
-}
-
-.profile__button {
+.profile__form-input {
+  width: 100%;
+  height: 100%;
+  margin: 0 0 0 15px;
   padding: 0;
-  margin: 0 auto 16px;
+  text-align: right;
+  background-color: #202020;
+  border: none;
+  box-sizing: border-box;
+  color: #fff;
+}
+.profile__form-input:focus {
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: left;
+  outline: none;
+  border-radius: 50px;
+  border: 1px solid #4285f4;
+}
+
+.profile__form-submit {
+  padding: 0;
+  margin: 204px auto 16px;
   display: flex;
   align-items: center;
   font-family: "Inter", ‘Arial’, sans-serif;
@@ -77,7 +84,7 @@
   border: none;
 }
 
-.profile__button:hover {
+.profile__form-submit:hover {
   cursor: pointer;
   opacity: 0.6;
 }
@@ -100,6 +107,30 @@
   opacity: 0.6;
 }
 
+.profile__form-error {
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: start;
+  color: #ee3465;
+}
+
+.profile__form-submit-success,
+.profile__form-submit-failed {
+  margin: 10px auto;
+}
+
+.profile__form-submit-success {
+  color: #2be080;
+}
+
+.profile__form-submit-failed {
+  color: #ee3465;
+}
+
 @media screen and (max-width: 768px) {
   .profile {
     padding: 236px 0 269px 0;
@@ -108,7 +139,7 @@
     margin: 0 0 96px 0;
   }
   .profile__form-submit {
-    margin: 210px 0 auto;
+    margin: 194px 0 16px;
   }
 }
 
@@ -123,6 +154,6 @@
     min-width: 260px;
   }
   .profile__form-submit {
-    margin: 379px 0 auto;
+    margin: 363px 0 16px;
   }
 }
